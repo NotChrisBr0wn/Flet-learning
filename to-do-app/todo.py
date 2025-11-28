@@ -22,14 +22,15 @@ class TodoApp(ft.Column): # The app root controll is the column containing all t
     def add_clicked(self,e): # Adds a new task to the list
             self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
             self.new_task.value = ""
-            self.view.update()
+            self.update()
 
 def main(page: ft.Page):
     page.title = "To-Do App"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.add(TodoApp())
+    page.update()
 
     # create an app instance
     todo = TodoApp()
     page.add(todo) # add the app controls to the page
+
 ft.app(main)
