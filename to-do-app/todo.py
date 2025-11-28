@@ -1,7 +1,4 @@
-from calendar import c
 import flet as ft
-from pygame import ver
-from xarray import align
 
 class Task(ft.Column): # Task component
 
@@ -10,7 +7,7 @@ class Task(ft.Column): # Task component
         self.task_name = task_name
         self.task_delete = task_delete
         self.display_task = ft.Checkbox(value=False, label=self.task_name)
-        self.edit_name = ft.TextField(expand=True)
+        self.edit_name = ft.TextField(expand=1)
 
         self.display.view = ft.Row( 
              alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -77,7 +74,7 @@ class TodoApp(ft.Column): # Main To-Do App component
                 controls=[
                     self.new_task,
                     ft.FloatingActionButton(
-                        icon=ft.icons.ADD, on_click=self.add_clicked
+                        icon=ft.Icons.ADD, on_click=self.add_clicked
                     ),
                 ],
             ),
@@ -101,6 +98,7 @@ def main(page: ft.Page):
 
     # create an app instance
     todo = TodoApp()
+
     page.add(todo) # add the app controls to the page
 
-ft.app(main)
+ft.app(target=main)
