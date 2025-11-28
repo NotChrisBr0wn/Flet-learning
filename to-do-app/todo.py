@@ -33,7 +33,10 @@ def main(page: ft.Page):
     todo = TodoApp()
     page.add(todo) # add the app controls to the page
 
+    # creates two separate instances of the TodoApp
     app1 =TodoApp()
     app2 = TodoApp()
+
+    page.add(app1,app2) # add both instances to the page
 
 ft.app(main)
