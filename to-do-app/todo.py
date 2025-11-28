@@ -9,7 +9,7 @@ class Task(ft.Column): # Task component
         self.display_task = ft.Checkbox(value=False, label=self.task_name)
         self.edit_name = ft.TextField(expand=1)
 
-        self.display.view = ft.Row( 
+        self.display_view = ft.Row( 
              alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
              vertical_alignment=ft.CrossAxisAlignment.CENTER,
                 controls=[
