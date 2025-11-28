@@ -73,17 +73,24 @@ class Task(ft.Column): # Task component
 class TodoApp(ft.Column): # Main To-Do App component
     def __init__(self):
         super().__init__()
-        self.new_task = ft.TextField(hint_text="Create a new task...", expand=True)
+        self.new_task = ft.TextField(hint_text="Create a new task...", on_submit=self.add_clicked, expand=True)
         self.tasks = ft.Column()
 
         self.filter = ft.Tabs( # Tabs for filtering tasks
+            scrollable=False,
             selected_index=0,
             on_change=self.tabs_changed,
             tabs=[ft.Tab(text="All"), ft.Tab(text="Active"), ft.Tab(text="Completed")],
         )
 
+        self.items_left = ft.Text("0 items left")
+
         self.width = 600
         self.controls = [ # Adds a plus button and the new task input field
+            ft.Row(
+                [ft.Text(value="Todos", theme_style=ft.TextThemedStyle.HEADLINE_MEDIUM)],
+                alignment=ft.MainAxisAlignment.CENTER,
+            ),
             ft.Row(
                 controls=[
                     self.new_task,
@@ -97,6 +104,16 @@ class TodoApp(ft.Column): # Main To-Do App component
                 controls=[
                     self.filter,
                     self.tasks,
+                    ft.Row( # Bottom row with items left and clear completed button
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                        controls=[
+                            self.items_left,
+                            ft.OutlinedButton(
+                                text="Clear Completed", on_click=self.clear_clicked
+                            ),
+                        ],
+                    )
                 ]
             )
         ]
@@ -105,6 +122,7 @@ class TodoApp(ft.Column): # Main To-Do App component
         task = Task(self.new_task.value, self.task_status_change, self.task_delete)
         self.tasks.controls.append(task)
         self.new_task.value = ""
+        self.new_task.focus() # Focus back to the input field
         self.update()
 
     def task_status_change(self): # Function to update task status
@@ -113,23 +131,32 @@ class TodoApp(ft.Column): # Main To-Do App component
     def task_delete(self, task): # Function to delete a task
         self.tasks.controls.remove(task)
         self.update()
+    
+    def tabs_changed(self, e): # Function to handle tab changes
+        self.update()
+
+    def clear_clicked(self, e): # Function to clear completed tasks
+        for task in self.tasks.controls[:]:
+            if task.completed:
+                self.task_delete(task)
 
     def before_update(self): # Function to filter tasks before updating the UI
         status = self.filter.tabs[self.filter.selected_index].text
+        count = 0
         for task in self.tasks.controls:
             task.visible = (
                 status == "All"
                 or (status == "Active" and not task.completed)
                 or (status == "Completed" and task.completed)
             )
-
-    def tabs_changed(self, e): # Function to handle tab changes
-        self.update()
+            if not task.completed:
+                count += 1
+        self.items_left.value = f"{count} active item(s) left"
 
 def main(page: ft.Page):
     page.title = "To-Do App"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.update()
+    page.scroll = ft.ScrollMode.ADAPTIVE
 
     # create an app instance
     todo = TodoApp()
