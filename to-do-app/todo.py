@@ -88,7 +88,7 @@ class TodoApp(ft.Column): # Main To-Do App component
         self.width = 600
         self.controls = [ # Adds a plus button and the new task input field
             ft.Row(
-                [ft.Text(value="Todos", theme_style=ft.TextThemedStyle.HEADLINE_MEDIUM)],
+                [ft.Text(value="Todos", theme_style=ft.TextThemeStyle.HEADLINE_MEDIUM)],
                 alignment=ft.MainAxisAlignment.CENTER,
             ),
             ft.Row(
