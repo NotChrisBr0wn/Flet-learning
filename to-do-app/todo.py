@@ -1,28 +1,35 @@
 import flet as ft
 
+class TodoApp(ft.Column): # The app root controll is the column containing all the controls
 
-def main(page: ft.Page):
-    def add_clicked(e): # Adds a new task to the list
-        tasks_view.controls.append(ft.Checkbox(label=new_task.value))
-        new_task.value = ""
-        view.update()
-
-    new_task = ft.TextField(hint_text="What needs to be done?", expand=True) # Adds a text field for new tasks
-    tasks_view = ft.Column()
-    view=ft.Column( # Main page layout
-        width=600,
-        controls=[
+    def __init__(self):
+        super().__init__()
+        self.new_task = ft.TextField(hint_text="What needs to be done?", expand=True) # Adds a text field for new tasks
+        self.tasks_view = ft.Column()
+        self.width = 600,
+        self.controls = [
             ft.Row(
                 controls=[
-                    new_task,
-                    ft.FloatingActionButton(icon=ft.Icons.ADD, on_click=add_clicked),
+                    self.new_task,
+                    ft.FloatingActionButton(
+                        icon=ft.Icons.ADD, on_click =self.add_clicked
+                    ),
                 ],
             ),
-            tasks_view,
-        ],
-    )
+            self.tasks_view,
+        ]
+        
+    def add_clicked(self,e): # Adds a new task to the list
+            self.tasks_view.controls.append(ft.Checkbox(label=self.new_task.value))
+            self.new_task.value = ""
+            self.view.update()
 
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER # Centers all the content horizontally
-    page.add(view)
+def main(page: ft.Page):
+    page.title = "To-Do App"
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.add(TodoApp())
 
+    # create an app instance
+    todo = TodoApp()
+    page.add(todo) # add the app controls to the page
 ft.app(main)
