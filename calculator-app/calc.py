@@ -80,7 +80,7 @@ class CalculatorApp(ft.Container):
 
 def main(page: ft.Page):
    page.title = "Calculator App"
-   calc = CakculatorApp()
+   calc = CalculatorApp()
    page.add(calc)
     
 ft.app(main)
