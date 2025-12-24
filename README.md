@@ -1,5 +1,5 @@
 # Flet Learning Road
-Repo for dumping flet projects while im still learning it 
+Repo for dumping flet projects while im still learning it trogh the documentation
 
 ## Hello World
 
